@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Projects - Aditya Gidh">
+  <Header />
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="max-w-3xl">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">Projects</h1>
+      <p class="text-lg text-gray-600 dark:text-gray-400 mb-12">Key engineering projects spanning AI tools, platform infrastructure, and full-stack web applications.</p>
+    </div>
+
+    <div class="space-y-6">
+      {projects.map((project) => (
+        <article class="p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-primary-200 dark:hover:border-primary-800 transition-colors">
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+            <h2 class="text-base font-semibold text-gray-900 dark:text-white">
+              {project.data.url ? (
+                <a href={project.data.url} target="_blank" rel="noopener noreferrer" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  {project.data.title}
+                  <svg class="inline w-3.5 h-3.5 ml-1 mb-0.5 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+              ) : project.data.title}
+            </h2>
+          </div>
+
+          <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">{project.data.description}</p>
+
+          {project.data.features && project.data.features.length > 0 && (
+            <div class="mb-4 border-t border-gray-100 dark:border-gray-800 pt-4">
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-500 uppercase tracking-wider font-mono mb-3">AI Features</p>
+              <ul class="list-disc list-outside pl-4 space-y-2">
+                {project.data.features.map((f: { name: string; detail: string }) => (
+                  <li class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                    <span class="font-medium text-gray-800 dark:text-gray-200">{f.name}</span>
+                    {' '}- {f.detail}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div class="flex flex-wrap gap-1.5 mb-3">
+            {project.data.tech.map((t: string) => (
+              <span class="text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 font-mono">{t}</span>
+            ))}
+          </div>
+          <p class="text-xs text-primary-600 dark:text-primary-400 font-medium">
+            <svg class="w-3.5 h-3.5 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+            {project.data.impact}
+          </p>
+        </article>
+      ))}
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

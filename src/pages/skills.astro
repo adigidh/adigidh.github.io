@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const skillCategories = [
+  {
+    name: 'AI & LLM Engineering',
+    icon: '🤖',
+    skills: ['LangChain', 'LangFlow', 'LangGraph', 'RAG Pipelines', 'Vector Databases (FAISS, ChromaDB)', 'Ollama', 'Prompt Engineering', 'IBM Granite', 'OpenAI', 'Gemini', 'JSON Prompting', 'AI-Powered CLI Tools'],
+  },
+  {
+    name: 'Web Development',
+    icon: '🌐',
+    skills: ['HTML5', 'CSS3', 'JavaScript (ES6+)', 'TypeScript', 'React.js', 'Angular', 'Node.js', 'Next.js', 'Astro'],
+  },
+  {
+    name: 'DevOps & Cloud',
+    icon: '☁️',
+    skills: ['Docker', 'Kubernetes', 'OpenShift', 'Helm', 'Tekton', 'Jenkins', 'Travis CI', 'IBM Cloud', 'Git', 'JFrog Artifactory', 'Blue-Green Deployments'],
+  },
+  {
+    name: 'Monitoring & Observability',
+    icon: '📊',
+    skills: ['Prometheus', 'Grafana', 'ELK Stack', 'OpenTelemetry', 'New Relic', 'PagerDuty', 'Zabbix'],
+  },
+  {
+    name: 'Backend & Databases',
+    icon: '🗄️',
+    skills: ['PostgreSQL', 'MongoDB', 'MySQL', 'Elasticsearch', 'PL/SQL', 'CouchDB', 'Redis'],
+  },
+  {
+    name: 'Languages',
+    icon: '💻',
+    skills: ['Python', 'JavaScript/TypeScript', 'R', 'Java', 'Objective-C', 'Groovy'],
+  },
+];
+---
+
+<BaseLayout title="Skills - Aditya Gidh">
+  <Header />
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="max-w-3xl">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">Skills & Competencies</h1>
+      <p class="text-lg text-gray-600 dark:text-gray-400 mb-12">Technical expertise spanning the full stack - from AI/ML pipelines to production infrastructure.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {skillCategories.map((category) => (
+        <div class="p-6 rounded-xl border border-gray-200 dark:border-gray-800">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="text-xl">{category.icon}</span>
+            <h2 class="font-semibold text-gray-900 dark:text-white">{category.name}</h2>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            {category.skills.map((skill) => (
+              <span class="text-xs px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">{skill}</span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

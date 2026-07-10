@@ -1,0 +1,20 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+
+# Astro cache
+.astro/
+
+# macOS
+.DS_Store
+
+# env files
+.env
+.env.*
+!.env.example
+
+# editor
+.vscode/
+.idea/
