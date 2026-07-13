@@ -21,21 +21,21 @@ import Footer from '../components/Footer.astro';
     <!-- By the numbers -->
     <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-gray-200 dark:border-gray-800">
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-4xl">
-        <div>
-          <p class="text-2xl font-semibold text-gray-900 dark:text-white font-mono">10+</p>
+        <div class="text-center">
+          <p class="text-xl font-semibold text-gray-900 dark:text-white font-mono">10+</p>
           <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">years of industry experience</p>
         </div>
-        <div>
-          <p class="text-2xl font-semibold text-gray-900 dark:text-white font-mono">99.9%</p>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">uptime across 10+ production services</p>
+        <div class="text-center">
+          <p class="text-xl font-semibold text-gray-900 dark:text-white font-mono">99.9%</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">uptime across 10+ microservices (Prometheus/Grafana)</p>
         </div>
-        <div>
-          <p class="text-2xl font-semibold text-gray-900 dark:text-white font-mono">3,200+</p>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">repo views from PyData London demos</p>
+        <div class="text-center">
+          <p class="text-xl font-semibold text-gray-900 dark:text-white font-mono">8</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">reusable AI agent plugins authored</p>
         </div>
-        <div>
-          <p class="text-2xl font-semibold text-gray-900 dark:text-white font-mono">65%</p>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">reduction in manual deployment interventions</p>
+        <div class="text-center">
+          <p class="text-xl font-semibold text-gray-900 dark:text-white font-mono">3,000+</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">users on IBM Carbon Design System rollout</p>
         </div>
       </div>
     </section>
@@ -45,11 +45,15 @@ import Footer from '../components/Footer.astro';
       <h2 class="text-xs font-semibold text-gray-500 dark:text-gray-500 uppercase tracking-wider mb-6 font-mono">Current Focus</h2>
       <div class="grid md:grid-cols-2 gap-x-12 gap-y-6 max-w-4xl">
         <div>
-          <h3 class="text-sm font-medium text-gray-900 dark:text-white mb-1">AI & LLM Engineering</h3>
+          <a href="/skills" class="group">
+            <h3 class="text-sm font-medium text-gray-900 dark:text-white mb-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">AI & LLM Engineering</h3>
+          </a>
           <p class="text-sm text-gray-600 dark:text-gray-400">RAG pipelines, LangChain/LangGraph, vector databases, prompt engineering, AI-powered CLI tools. Contributor to beeai-framework, instructlab, granite-agent-cookbook. Jupyter notebooks featured at PyData London 2026 (570+ clones, 780+ unique users).</p>
         </div>
         <div>
-          <h3 class="text-sm font-medium text-gray-900 dark:text-white mb-1">Platform & Observability</h3>
+          <a href="/skills" class="group">
+            <h3 class="text-sm font-medium text-gray-900 dark:text-white mb-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">Platform & Observability</h3>
+          </a>
           <p class="text-sm text-gray-600 dark:text-gray-400">Prometheus/Grafana monitoring for 10+ microservices. DevSecOps with Tekton Secure Pipelines. Kubernetes/OpenShift deployments at scale.</p>
         </div>
       </div>
@@ -62,14 +66,14 @@ import Footer from '../components/Footer.astro';
         <li class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
           <span class="text-xs text-gray-500 dark:text-gray-500 font-mono shrink-0 w-16">2026</span>
           <div>
-            <p class="text-sm text-gray-900 dark:text-white font-medium">Conversational RAG for Markdown Docs</p>
+            <a href="/talks" class="text-sm text-gray-900 dark:text-white font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Conversational RAG for Markdown Docs</a>
             <p class="text-xs text-gray-500 dark:text-gray-400">Poster - North East Database Day (NEDB)</p>
           </div>
         </li>
         <li class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
           <span class="text-xs text-gray-500 dark:text-gray-500 font-mono shrink-0 w-16">2025</span>
           <div>
-            <p class="text-sm text-gray-900 dark:text-white font-medium">AI in the Terminal: Empowering Developers with CLI-Based AI Apps</p>
+            <a href="/talks" class="text-sm text-gray-900 dark:text-white font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">AI in the Terminal: Empowering Developers with CLI-Based AI Apps</a>
             <p class="text-xs text-gray-500 dark:text-gray-400">Talk - DevConf 2025</p>
           </div>
         </li>
@@ -103,14 +107,14 @@ import Footer from '../components/Footer.astro';
         <li class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
           <span class="text-xs text-gray-500 dark:text-gray-500 font-mono shrink-0 w-16">2024</span>
           <div>
-            <p class="text-sm text-gray-900 dark:text-white font-medium">The Infrastructure Powering IBM's Gen AI Model Development</p>
+            <a href="/publications" class="text-sm text-gray-900 dark:text-white font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">The Infrastructure Powering IBM's Gen AI Model Development</a>
             <p class="text-xs text-gray-500 dark:text-gray-400">White paper - arxiv</p>
           </div>
         </li>
         <li class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
           <span class="text-xs text-gray-500 dark:text-gray-500 font-mono shrink-0 w-16">2022</span>
           <div>
-            <p class="text-sm text-gray-900 dark:text-white font-medium">Knowledge Graph Induction Enabling Recommending and Trend Analysis</p>
+            <a href="/publications" class="text-sm text-gray-900 dark:text-white font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Knowledge Graph Induction Enabling Recommending and Trend Analysis</a>
             <p class="text-xs text-gray-500 dark:text-gray-400">ISWC 2022 (In-Use Track) - Springer Proceedings</p>
           </div>
         </li>
@@ -125,9 +129,9 @@ import Footer from '../components/Footer.astro';
         {[
           { repo: 'agent-readiness', desc: '8 reusable AI agent plugins for Claude Code, Codex, Gemini CLI', url: 'https://github.com/adigidh/agent-readiness', role: 'author' },
           { repo: 'beeai-framework', desc: 'AI agent framework', url: 'https://github.com/search?q=beeai-framework', role: 'contributor' },
-          { repo: 'instructlab', desc: 'LLM fine-tuning toolkit', url: 'https://github.com/search?q=instructlab', role: 'contributor' },
+          { repo: 'instructlab', desc: 'LLM fine-tuning toolkit', url: 'https://github.com/instructlab/ui', role: 'contributor' },
           { repo: 'granite-agent-cookbook', desc: 'Agent patterns for IBM Granite', url: 'https://github.com/search?q=granite-agent-cookbook', role: 'contributor' },
-          { repo: 'web-application-reference', desc: 'Full-stack web app reference architecture', url: 'https://github.com/search?q=web-application-reference', role: 'contributor' },
+          { repo: 'web-application-reference', desc: 'Full-stack web app reference architecture', url: 'https://github.com/nodeshift/web-application-reference', role: 'contributor' },
         ].map(({ repo, desc, url, role }) => (
           <a href={url} target="_blank" rel="noopener noreferrer" class="group flex items-start gap-3 p-3 -m-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors">
             <svg class="w-4 h-4 mt-0.5 text-gray-400 dark:text-gray-600 group-hover:text-gray-600 dark:group-hover:text-gray-400 transition-colors shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
