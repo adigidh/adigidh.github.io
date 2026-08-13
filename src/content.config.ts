@@ -51,6 +51,10 @@ const projects = defineCollection({
       name: z.string(),
       detail: z.string(),
     })).optional(),
+    sections: z.array(z.object({
+      title: z.string(),
+      bullets: z.array(z.string()),
+    })).optional(),
   }),
 });
 
