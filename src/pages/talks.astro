@@ -31,7 +31,11 @@ const talks = (await getCollection('talks')).sort((a, b) => b.data.year - a.data
             <span class="text-sm text-gray-500 dark:text-gray-400">{talk.data.year}</span>
           </div>
           <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">{talk.data.title}</h2>
-          <p class="text-sm text-primary-600 dark:text-primary-400 font-medium mb-3">{talk.data.event}</p>
+          {talk.data.url ? (
+            <a href={talk.data.url} target="_blank" rel="noopener noreferrer" class="text-sm text-primary-600 dark:text-primary-400 font-medium mb-3 hover:underline block">{talk.data.event}</a>
+          ) : (
+            <p class="text-sm text-primary-600 dark:text-primary-400 font-medium mb-3">{talk.data.event}</p>
+          )}
           <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{talk.data.description}</p>
         </article>
       ))}
