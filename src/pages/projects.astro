@@ -18,7 +18,7 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
 
     <div class="space-y-6">
       {projects.map((project) => (
-        <article class="p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-primary-200 dark:hover:border-primary-800 transition-colors">
+        <article id={project.id} class="p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-primary-200 dark:hover:border-primary-800 transition-colors scroll-mt-24">
           <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
             <h2 class="text-base font-semibold text-gray-900 dark:text-white">
               {project.data.url ? (
