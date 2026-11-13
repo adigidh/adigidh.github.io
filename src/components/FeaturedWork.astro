@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import { featuredProjects } from '../data/site';
+
+const all = await getCollection('projects');
+const projects = featuredProjects
+  .map((id) => all.find((p) => p.id === id))
+  .filter((p): p is NonNullable<typeof p> => Boolean(p));
+---
+
+<ul class="grid md:grid-cols-3 gap-4">
+  {projects.map((p, i) => (
+    <li class="reveal" style={`--reveal-delay:${i * 80}ms`}>
+      <a href={`/projects#${p.id}`} class="card group flex h-full flex-col p-6">
+        <p class="eyebrow mb-3 text-accent">0{i + 1}</p>
+        <h3 class="font-serif text-xl tracking-tight leading-snug group-hover:text-accent transition-colors">{p.data.title}</h3>
+        <p class="mt-3 text-sm text-muted leading-relaxed line-clamp-5">{p.data.impact}</p>
+        <div class="mt-auto pt-5 flex flex-wrap gap-1.5">
+          {p.data.tech.slice(0, 4).map((t: string) => <span class="chip">{t}</span>)}
+        </div>
+      </a>
+    </li>
+  ))}
+</ul>

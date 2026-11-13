@@ -1,79 +1,106 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import PageHeader from '../components/PageHeader.astro';
+import FilterBar from '../components/FilterBar.astro';
 import { getCollection } from 'astro:content';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+
+const counts = new Map<string, number>();
+for (const p of projects) for (const t of p.data.tech) counts.set(t, (counts.get(t) ?? 0) + 1);
+const filterTags = [...counts.entries()]
+  .filter(([, n]) => n >= 2)
+  .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+  .slice(0, 10)
+  .map(([t]) => t);
 ---
 
 <BaseLayout title="Projects - Aditya Gidh">
-  <Header />
+  <div class="wrap pb-8">
+    <PageHeader
+      eyebrow="Projects"
+      title="Things I've shipped"
+      lead="Key engineering projects spanning AI tools, platform infrastructure, and full-stack web applications."
+    />
 
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="max-w-3xl">
-      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">Projects</h1>
-      <p class="text-lg text-gray-600 dark:text-gray-400 mb-12">Key engineering projects spanning AI tools, platform infrastructure, and full-stack web applications.</p>
-    </div>
+    <div data-filter-root>
+      <FilterBar label="Filter by technology" options={filterTags} />
 
-    <div class="space-y-6">
-      {projects.map((project) => (
-        <article id={project.id} class="p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-primary-200 dark:hover:border-primary-800 transition-colors scroll-mt-24">
-          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-            <h2 class="text-base font-semibold text-gray-900 dark:text-white">
+      <div class="space-y-6">
+        {projects.map((project) => (
+          <article
+            id={project.id}
+            data-filter-item
+            data-tags={project.data.tech.join('|')}
+            class="reveal card card-hover p-6 sm:p-7 scroll-mt-24"
+          >
+            <h2 class="font-serif text-2xl tracking-tight mb-3">
               {project.data.url ? (
-                <a href={project.data.url} target="_blank" rel="noopener noreferrer" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                <a href={project.data.url} target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">
                   {project.data.title}
-                  <svg class="inline w-3.5 h-3.5 ml-1 mb-0.5 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                  <svg class="inline w-4 h-4 ml-1 mb-1 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                  <span class="sr-only">(opens in a new tab)</span>
                 </a>
               ) : project.data.title}
             </h2>
-          </div>
 
-          <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4" set:html={project.data.description} />
+            {(() => {
+              const hasDetail = (project.data.features?.length ?? 0) > 0 || (project.data.sections?.length ?? 0) > 0;
+              return (
+                <div class:list={[hasDetail && 'lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-x-12']}>
+                  <div class="flex flex-col">
+                    <p class="text-sm sm:text-[0.9375rem] text-muted leading-relaxed max-w-[54ch] mb-5 [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:text-accent" set:html={project.data.description} />
 
-          {project.data.features && project.data.features.length > 0 && (
-            <div class="mb-4 border-t border-gray-100 dark:border-gray-800 pt-4">
-              <p class="text-xs font-semibold text-gray-500 dark:text-gray-500 uppercase tracking-wider font-mono mb-3">Highlights</p>
-              <ul class="list-disc list-outside pl-4 space-y-2">
-                {project.data.features.map((f: { name: string; detail: string }) => (
-                  <li class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-                    <span class="font-medium text-gray-800 dark:text-gray-200">{f.name}</span>
-                    {' '}- <span set:html={f.detail} />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+                    <p class="mb-5 text-sm font-medium text-accent leading-relaxed max-w-[54ch]">
+                      <span class="eyebrow mr-2 text-accent">Impact</span>{project.data.impact}
+                    </p>
 
-          {project.data.sections && project.data.sections.length > 0 && (
-            <div class="mb-4 border-t border-gray-100 dark:border-gray-800 pt-4 space-y-4">
-              {project.data.sections.map((s: { title: string; bullets: string[] }) => (
-                <div>
-                  <p class="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2">{s.title}</p>
-                  <ul class="list-disc list-outside pl-4 space-y-1">
-                    {s.bullets.map((b: string) => (
-                      <li class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{b}</li>
-                    ))}
-                  </ul>
+                    <div class="flex flex-wrap gap-1.5 pt-1 mt-auto">
+                      {project.data.tech.map((t: string) => <span class="chip">{t}</span>)}
+                    </div>
+                  </div>
+
+                  {hasDetail && (
+                    <div class="mt-6 pt-6 border-t border-line space-y-6 lg:mt-0 lg:pt-0 lg:border-t-0 lg:border-l lg:pl-12">
+                      {project.data.features && project.data.features.length > 0 && (
+                        <div>
+                          <p class="eyebrow mb-3">Highlights</p>
+                          <ul class="space-y-2.5">
+                            {project.data.features.map((f: { name: string; detail: string }) => (
+                              <li class="flex gap-3 text-sm text-muted leading-relaxed">
+                                <span class="mt-2 w-1 h-1 rounded-full bg-muted shrink-0" aria-hidden="true"></span>
+                                <span><span class="font-medium text-fg">{f.name}</span> - <span set:html={f.detail} /></span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {project.data.sections && project.data.sections.length > 0 && (
+                        <div class="space-y-5">
+                          {project.data.sections.map((s: { title: string; bullets: string[] }) => (
+                            <div>
+                              <h3 class="text-sm font-medium mb-2">{s.title}</h3>
+                              <ul class="space-y-1.5">
+                                {s.bullets.map((b: string) => (
+                                  <li class="flex gap-3 text-sm text-muted leading-relaxed">
+                                    <span class="mt-2 w-1 h-1 rounded-full bg-muted shrink-0" aria-hidden="true"></span>
+                                    <span>{b}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-              ))}
-            </div>
-          )}
-
-          <div class="flex flex-wrap gap-1.5 mb-3">
-            {project.data.tech.map((t: string) => (
-              <span class="text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 font-mono">{t}</span>
-            ))}
-          </div>
-          <p class="text-xs text-primary-600 dark:text-primary-400 font-medium">
-            <svg class="w-3.5 h-3.5 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-            {project.data.impact}
-          </p>
-        </article>
-      ))}
+              );
+            })()}
+          </article>
+        ))}
+      </div>
     </div>
-  </main>
-
-  <Footer />
+  </div>
 </BaseLayout>

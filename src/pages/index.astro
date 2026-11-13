@@ -1,217 +1,111 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import StatsRow from '../components/StatsRow.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import FeaturedWork from '../components/FeaturedWork.astro';
+import { focus, recent, openSource, community, stack } from '../data/site';
+
+const isExternal = (href: string) => href.startsWith('http');
 ---
 
 <BaseLayout title="Aditya Gidh - Software Engineer & AI Practitioner">
-  <Header />
+  <Hero />
 
-  <main>
-    <!-- Intro -->
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
-      <div class="max-w-3xl">
-        <h1 class="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-4">Aditya Gidh</h1>
-        <p class="text-base text-gray-600 dark:text-gray-400 leading-relaxed">
-          Advisory Software Engineer at IBM Research with 10+ years building scalable web platforms, developer tools, and cloud-native services. I drive initiatives spanning AI-powered developer experiences, production observability, and DevSecOps automation partnering across research, product, and engineering organizations to bring innovative solutions into production at scale. Previously at IBM Watson for Genomics and IBM Marketplace.
-        </p>
-      </div>
-    </section>
+  <section class="wrap pb-16" aria-label="By the numbers">
+    <StatsRow />
+  </section>
 
-    <!-- By the numbers -->
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-gray-200 dark:border-gray-800">
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-4xl">
-        <div class="text-center">
-          <p class="text-xl font-semibold text-gray-900 dark:text-white font-mono">10+</p>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">years of industry experience</p>
-        </div>
-        <div class="text-center">
-          <p class="text-xl font-semibold text-gray-900 dark:text-white font-mono">99.9%</p>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">uptime across 10+ microservices (Prometheus/Grafana)</p>
-        </div>
-        <div class="text-center">
-          <p class="text-xl font-semibold text-gray-900 dark:text-white font-mono">8</p>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">reusable AI agent plugins authored</p>
-        </div>
-        <div class="text-center">
-          <p class="text-xl font-semibold text-gray-900 dark:text-white font-mono">3,000+</p>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">users on IBM Carbon Design System rollout</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Current Focus -->
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-gray-200 dark:border-gray-800">
-      <h2 class="text-xs font-semibold text-gray-500 dark:text-gray-500 uppercase tracking-wider mb-6 font-mono">Current Focus</h2>
-      <div class="grid md:grid-cols-2 gap-x-12 gap-y-6 max-w-4xl">
-        <div>
-          <a href="/skills" class="group">
-            <h3 class="text-sm font-medium text-gray-900 dark:text-white mb-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">AI & LLM Engineering</h3>
+  <section class="wrap py-16 border-t border-line">
+    <SectionHeading index="01" label="Current focus" title="What I'm working on" />
+    <div class="grid md:grid-cols-2 gap-x-14 gap-y-10">
+      {focus.map((f, i) => (
+        <div class="reveal" style={`--reveal-delay:${(i % 2) * 80}ms`}>
+          <a href={f.href} class="group inline-block">
+            <h3 class="font-serif text-xl tracking-tight group-hover:text-accent transition-colors">{f.title} <span class="text-accent opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden="true">&rarr;</span></h3>
           </a>
-          <p class="text-sm text-gray-600 dark:text-gray-400">RAG pipelines, LangChain/LangGraph, vector databases, prompt engineering, AI-powered CLI tools. Contributor to beeai-framework, instructlab, granite-agent-cookbook. Jupyter notebooks featured at PyData London 2026 (570+ clones, 780+ unique users).</p>
+          <p class="mt-2 text-sm leading-relaxed text-muted" set:html={f.body} />
         </div>
-        <div>
-          <a href="/skills" class="group">
-            <h3 class="text-sm font-medium text-gray-900 dark:text-white mb-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">Platform & Observability</h3>
-          </a>
-          <p class="text-sm text-gray-600 dark:text-gray-400">Prometheus/Grafana monitoring for 10+ microservices. DevSecOps with Tekton Secure Pipelines. Kubernetes/OpenShift deployments at scale.</p>
-        </div>
-        <div>
-          <a href="/projects#codebase-intelligence-layer" class="group">
-            <h3 class="text-sm font-medium text-gray-900 dark:text-white mb-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">AI-Ready Codebases</h3>
-          </a>
-          <p class="text-sm text-gray-600 dark:text-gray-400">Pre-computed architectural intelligence for 61 services: materialized views of actual code designed for AI consumption. Inspired by <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener noreferrer" class="underline hover:text-primary-600 dark:hover:text-primary-400">Karpathy's wiki concept</a>, extended with cross-service blast-radius analysis, known risks, and an MCP query interface. Now the context source an agentic delivery pipeline reads before writing a spec.</p>
-        </div>
-        <div>
-          <a href="/projects#software-factory-mvp" class="group">
-            <h3 class="text-sm font-medium text-gray-900 dark:text-white mb-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">Agentic Delivery Pipelines</h3>
-          </a>
-          <p class="text-sm text-gray-600 dark:text-gray-400">Developer Software Factory, in use across production pipelines: chaining <a href="https://github.com/dam-agents/dam" target="_blank" rel="noopener noreferrer" class="underline hover:text-primary-600 dark:hover:text-primary-400">DAM</a>, GitHub, a spec-driven development CLI, and SPS into one AI-assisted path from a plain-language problem description to a sandbox-tested pull request, with a human validation gate preserved at every step. ROI measurement is the next milestone, not yet claimed.</p>
-        </div>
-      </div>
-    </section>
+      ))}
+    </div>
+  </section>
 
-    <!-- Recent Work -->
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-gray-200 dark:border-gray-800">
-      <h2 class="text-xs font-semibold text-gray-500 dark:text-gray-500 uppercase tracking-wider mb-6 font-mono">Recent Publications & Talks</h2>
-      <ul class="space-y-4 max-w-4xl">
-        <li class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
-          <span class="text-xs text-gray-500 dark:text-gray-500 font-mono shrink-0 w-16">2026</span>
-          <div>
-            <a href="/talks" class="text-sm text-gray-900 dark:text-white font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Conversational RAG for Markdown Docs</a>
-            <p class="text-xs text-gray-500 dark:text-gray-400">Poster - North East Database Day (NEDB)</p>
-          </div>
-        </li>
-        <li class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
-          <span class="text-xs text-gray-500 dark:text-gray-500 font-mono shrink-0 w-16">2025</span>
-          <div>
-            <a href="/talks" class="text-sm text-gray-900 dark:text-white font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">AI in the Terminal: Empowering Developers with CLI-Based AI Apps</a>
-            <p class="text-xs text-gray-500 dark:text-gray-400">Talk - DevConf 2025</p>
-          </div>
-        </li>
-        <li class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
-          <span class="text-xs text-gray-500 dark:text-gray-500 font-mono shrink-0 w-16">2024</span>
-          <div>
-            <a href="https://developer.ibm.com/articles/data-pipeline-embeddings-clustering/" target="_blank" rel="noopener noreferrer" class="text-sm text-gray-900 dark:text-white font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-              Data Pipeline: Embeddings and Clustering for Intelligent Entity Grouping
-            </a>
-            <p class="text-xs text-gray-500 dark:text-gray-400">Article - IBM Developer</p>
-          </div>
-        </li>
-        <li class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
-          <span class="text-xs text-gray-500 dark:text-gray-500 font-mono shrink-0 w-16">2024</span>
-          <div>
-            <a href="https://developer.ibm.com/tutorials/build-rag-assistant-md-documentation/" target="_blank" rel="noopener noreferrer" class="text-sm text-gray-900 dark:text-white font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-              Build a RAG Assistant for Markdown Documentation
-            </a>
-            <p class="text-xs text-gray-500 dark:text-gray-400">Tutorial - IBM Developer</p>
-          </div>
-        </li>
-        <li class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
-          <span class="text-xs text-gray-500 dark:text-gray-500 font-mono shrink-0 w-16">2024</span>
-          <div>
-            <a href="https://developer.ibm.com/articles/json-prompting-llms" target="_blank" rel="noopener noreferrer" class="text-sm text-gray-900 dark:text-white font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-              JSON Prompting for LLMs
-            </a>
-            <p class="text-xs text-gray-500 dark:text-gray-400">Article - IBM Developer</p>
-          </div>
-        </li>
-        <li class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
-          <span class="text-xs text-gray-500 dark:text-gray-500 font-mono shrink-0 w-16">2024</span>
-          <div>
-            <a href="https://arxiv.org/abs/2407.05467" target="_blank" rel="noopener noreferrer" class="text-sm text-gray-900 dark:text-white font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">The Infrastructure Powering IBM's Gen AI Model Development</a>
-            <p class="text-xs text-gray-500 dark:text-gray-400">White paper - arxiv</p>
-          </div>
-        </li>
-        <li class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
-          <span class="text-xs text-gray-500 dark:text-gray-500 font-mono shrink-0 w-16">2022</span>
-          <div>
-            <a href="https://iswc2022.semanticweb.org/wp-content/uploads/2022/11/978-3-031-19433-7_47.pdf" target="_blank" rel="noopener noreferrer" class="text-sm text-gray-900 dark:text-white font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Knowledge Graph Induction Enabling Recommending and Trend Analysis</a>
-            <p class="text-xs text-gray-500 dark:text-gray-400">ISWC 2022 (In-Use Track) - Springer Proceedings</p>
-          </div>
-        </li>
-      </ul>
-      <a href="/publications" class="inline-block mt-6 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-mono transition-colors">all publications &rarr;</a>
-    </section>
+  <section class="wrap py-16 border-t border-line">
+    <SectionHeading index="02" label="Selected work" title="Featured projects" href="/projects" linkLabel="All projects" />
+    <FeaturedWork />
+  </section>
 
-    <!-- Open Source -->
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-gray-200 dark:border-gray-800">
-      <h2 class="text-xs font-semibold text-gray-500 dark:text-gray-500 uppercase tracking-wider mb-6 font-mono">Open Source</h2>
-      <div class="grid sm:grid-cols-2 gap-4 max-w-4xl">
-        {[
-          { repo: 'agent-readiness', desc: 'reusable AI agent plugin for Claude Code, Codex, Gemini CLI', url: 'https://github.com/adigidh/agent-readiness', role: 'author' },
-          { repo: 'beeai-framework', desc: 'AI agent framework', url: 'https://github.com/search?q=beeai-framework', role: 'contributor' },
-          { repo: 'instructlab', desc: 'LLM fine-tuning toolkit', url: 'https://github.com/instructlab/ui', role: 'contributor' },
-          { repo: 'granite-agent-cookbook', desc: 'Agent patterns for IBM Granite', url: 'https://github.com/search?q=granite-agent-cookbook', role: 'contributor' },
-          { repo: 'web-application-reference', desc: 'Full-stack web app reference architecture', url: 'https://github.com/nodeshift/web-application-reference', role: 'contributor' },
-        ].map(({ repo, desc, url, role }) => (
-          <a href={url} target="_blank" rel="noopener noreferrer" class="group flex items-start gap-3 p-3 -m-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors">
-            <svg class="w-4 h-4 mt-0.5 text-gray-400 dark:text-gray-600 group-hover:text-gray-600 dark:group-hover:text-gray-400 transition-colors shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+  <section class="wrap py-16 border-t border-line">
+    <SectionHeading index="03" label="Writing & speaking" title="Recent publications & talks" href="/publications" linkLabel="All publications" />
+    <ul class="divide-y divide-line border-y border-line">
+      {recent.map((r) => (
+        <li class="reveal">
+          <a
+            href={r.href}
+            {...(isExternal(r.href) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            class="group grid grid-cols-[3.5rem_1fr_auto] items-baseline gap-x-4 py-4 -mx-3 px-3 rounded-lg hover:bg-surface transition-colors"
+          >
+            <span class="font-mono text-xs text-muted">{r.year}</span>
+            <span>
+              <span class="block text-sm sm:text-base font-medium group-hover:text-accent transition-colors">{r.title}</span>
+              <span class="block mt-0.5 text-xs text-muted">{r.meta}</span>
+            </span>
+            <span class="text-muted group-hover:text-accent transition-colors" aria-hidden="true">{isExternal(r.href) ? '↗' : '→'}</span>
+            {isExternal(r.href) && <span class="sr-only">(opens in a new tab)</span>}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="wrap py-16 border-t border-line">
+    <SectionHeading index="04" label="Open source" title="Building in the open" />
+    <ul class="grid sm:grid-cols-2 gap-4">
+      {openSource.map(({ repo, desc, url, role }, i) => (
+        <li class="reveal" style={`--reveal-delay:${(i % 2) * 70}ms`}>
+          <a href={url} target="_blank" rel="noopener noreferrer" class="card group flex items-start gap-3 p-4 h-full">
+            <svg class="w-4 h-4 mt-1 text-muted group-hover:text-accent transition-colors shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
             <div>
-              <div class="flex items-center gap-2">
-                <p class="text-sm font-mono text-gray-900 dark:text-white">{repo}</p>
-                <span class:list={['text-xs px-1.5 py-0.5 rounded font-mono', role === 'author' ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400' : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400']}>
-                  {role}
-                </span>
+              <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                <p class="text-sm font-mono">{repo}</p>
+                <span class:list={['badge', role === 'author' && 'badge-accent']}>{role}</span>
               </div>
-              <p class="text-xs text-gray-500 dark:text-gray-400">{desc}</p>
+              <p class="mt-1 text-sm text-muted leading-relaxed">{desc}</p>
+              <span class="sr-only">(opens in a new tab)</span>
             </div>
           </a>
-        ))}
-      </div>
-    </section>
+        </li>
+      ))}
+    </ul>
+  </section>
 
-    <!-- Community -->
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-gray-200 dark:border-gray-800">
-      <h2 class="text-xs font-semibold text-gray-500 dark:text-gray-500 uppercase tracking-wider mb-6 font-mono">Community</h2>
-      <div class="max-w-4xl space-y-4">
-        <div class="flex items-start gap-3">
-          <svg class="w-4 h-4 mt-0.5 text-gray-400 dark:text-gray-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+  <section class="wrap py-16 border-t border-line">
+    <SectionHeading index="05" label="Community" title="Beyond the day job" />
+    <ul class="space-y-6 max-w-3xl">
+      {community.map((c) => (
+        <li class="reveal flex items-start gap-3">
+          <span class="mt-2 w-1.5 h-1.5 rounded-full bg-accent shrink-0" aria-hidden="true"></span>
           <div>
-            <div class="flex items-center gap-2">
-              <a href="https://aaif.io/working-groups" target="_blank" rel="noopener noreferrer" class="text-sm font-mono text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">AAIF Security &amp; Privacy Working Group</a>
-              <span class="text-xs px-1.5 py-0.5 rounded font-mono bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400">technical contributor</span>
+            <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+              <a href={c.url} target="_blank" rel="noopener noreferrer" class="text-sm font-medium prose-link">{c.title}<span class="sr-only"> (opens in a new tab)</span></a>
+              <span class="badge badge-accent">{c.role}</span>
             </div>
-            <p class="text-xs text-gray-500 dark:text-gray-400">Producing open threat models, shared taxonomy, and design patterns for trustworthy agentic AI - Agentic AI Foundation (AAIF)</p>
+            <p class="mt-1 text-sm text-muted leading-relaxed max-w-[54ch]">{c.desc}</p>
           </div>
-        </div>
+        </li>
+      ))}
+    </ul>
+  </section>
 
-        <div class="flex items-start gap-3">
-          <svg class="w-4 h-4 mt-0.5 text-gray-400 dark:text-gray-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-          <div>
-            <div class="flex items-center gap-2">
-              <a href="https://ibm-granite-community.github.io/granite-agent-workshop/" target="_blank" rel="noopener noreferrer" class="text-sm font-mono text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Building Agents with Granite Workshop</a>
-              <span class="text-xs px-1.5 py-0.5 rounded font-mono bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400">technical contributor</span>
-            </div>
-            <p class="text-xs text-gray-500 dark:text-gray-400">Contributed to the inception of this hands-on learning program delivered by the Granite team across IBM business units and technical organizations, and showcased at open-source, AI, and developer conferences worldwide.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Technical Stack (compact) -->
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-gray-200 dark:border-gray-800">
-      <h2 class="text-xs font-semibold text-gray-500 dark:text-gray-500 uppercase tracking-wider mb-6 font-mono">Stack</h2>
-      <div class="max-w-4xl text-sm text-gray-600 dark:text-gray-400 space-y-2 font-mono">
-        <p><span class="text-gray-900 dark:text-gray-200">languages</span>&nbsp;&nbsp;Python, TypeScript, JavaScript, Java, R</p>
-        <p><span class="text-gray-900 dark:text-gray-200">ai/ml</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LangChain, LangGraph, RAG, FAISS, ChromaDB, Ollama, IBM Granite</p>
-        <p><span class="text-gray-900 dark:text-gray-200">frontend</span>&nbsp;&nbsp;&nbsp;React, Next.js, Astro, Angular, Carbon Design System</p>
-        <p><span class="text-gray-900 dark:text-gray-200">backend</span>&nbsp;&nbsp;&nbsp;&nbsp;Node.js, Express, PostgreSQL, MongoDB, Elasticsearch</p>
-        <p><span class="text-gray-900 dark:text-gray-200">infra</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kubernetes, OpenShift, Docker, Helm, Tekton, Prometheus, Grafana</p>
-      </div>
-      <a href="/skills" class="inline-block mt-6 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-mono transition-colors">full breakdown &rarr;</a>
-    </section>
-
-    <!-- Links -->
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-gray-200 dark:border-gray-800">
-      <h2 class="text-xs font-semibold text-gray-500 dark:text-gray-500 uppercase tracking-wider mb-6 font-mono">Elsewhere</h2>
-      <div class="flex flex-wrap gap-6 text-sm font-mono">
-        <a href="https://www.linkedin.com/in/adityagidh/" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">linkedin</a>
-        <a href="https://github.com/adityagidh" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">github</a>
-        <a href="mailto:gidh.aditya20@gmail.com" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">email</a>
-      </div>
-    </section>
-  </main>
-
-  <Footer />
+  <section class="wrap py-16 border-t border-line">
+    <SectionHeading index="06" label="Stack" title="Tools I reach for" href="/skills" linkLabel="Full breakdown" />
+    <dl class="reveal grid grid-cols-[6.5rem_1fr] sm:grid-cols-[8rem_1fr] gap-x-4 gap-y-3 font-mono text-[0.8rem] leading-relaxed">
+      {stack.map((s) => (
+        <>
+          <dt class="text-fg">{s.label}</dt>
+          <dd class="text-muted">{s.items}</dd>
+        </>
+      ))}
+    </dl>
+  </section>
 </BaseLayout>

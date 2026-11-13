@@ -1,46 +1,45 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import PageHeader from '../components/PageHeader.astro';
 import { getCollection } from 'astro:content';
 
 const talks = (await getCollection('talks')).sort((a, b) => b.data.year - a.data.year);
+
+const typeBadge: Record<string, string> = {
+  talk: 'badge-amber',
+  poster: 'badge-teal',
+  presentation: 'badge-indigo',
+};
 ---
 
 <BaseLayout title="Talks & Presentations - Aditya Gidh">
-  <Header />
+  <div class="wrap-narrow pb-8">
+    <PageHeader
+      eyebrow="Talks"
+      title="Talks & presentations"
+      lead="Conference talks, poster sessions, and professional presentations on AI, APIs, and modern development practices."
+    />
 
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="max-w-3xl">
-      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">Talks & Presentations</h1>
-      <p class="text-lg text-gray-600 dark:text-gray-400 mb-12">Conference talks, poster sessions, and professional presentations on AI, APIs, and modern development practices.</p>
-    </div>
-
-    <div class="space-y-8">
+    <ul class="space-y-5">
       {talks.map((talk) => (
-        <article class="p-6 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-primary-200 dark:hover:border-primary-800 transition-colors">
-          <div class="flex items-center gap-2 mb-3">
-            <span class:list={[
-              'text-xs font-medium px-2 py-0.5 rounded-full',
-              talk.data.type === 'talk' ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400' :
-              talk.data.type === 'poster' ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400' :
-              'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400'
-            ]}>
-              {talk.data.type}
-            </span>
-            <span class="text-sm text-gray-500 dark:text-gray-400">{talk.data.year}</span>
-          </div>
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">{talk.data.title}</h2>
-          {talk.data.url ? (
-            <a href={talk.data.url} target="_blank" rel="noopener noreferrer" class="text-sm text-primary-600 dark:text-primary-400 font-medium mb-3 hover:underline block">{talk.data.event}</a>
-          ) : (
-            <p class="text-sm text-primary-600 dark:text-primary-400 font-medium mb-3">{talk.data.event}</p>
-          )}
-          <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{talk.data.description}</p>
-        </article>
+        <li class="reveal">
+          <article class="card card-hover p-6 sm:p-7">
+            <div class="flex items-center gap-3 mb-3">
+              <span class:list={['badge', typeBadge[talk.data.type]]}>{talk.data.type}</span>
+              <span class="font-mono text-xs text-muted">{talk.data.year}</span>
+            </div>
+            <h2 class="font-serif text-2xl tracking-tight mb-1.5">{talk.data.title}</h2>
+            {talk.data.url ? (
+              <a href={talk.data.url} target="_blank" rel="noopener noreferrer" class="text-sm text-accent font-medium mb-3 inline-block prose-link">
+                {talk.data.event}<span class="sr-only"> (opens in a new tab)</span>
+              </a>
+            ) : (
+              <p class="text-sm text-accent font-medium mb-3">{talk.data.event}</p>
+            )}
+            <p class="text-sm text-muted leading-relaxed max-w-[54ch]">{talk.data.description}</p>
+          </article>
+        </li>
       ))}
-    </div>
-  </main>
-
-  <Footer />
+    </ul>
+  </div>
 </BaseLayout>
