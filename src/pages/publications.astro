@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import PageHeader from '../components/PageHeader.astro';
+import FilterBar from '../components/FilterBar.astro';
 import { getCollection } from 'astro:content';
 
 const all = await getCollection('publications');
@@ -10,81 +10,78 @@ const groups = [
   {
     label: 'Peer-Reviewed Research',
     description: 'Conference papers and proceedings with formal review',
-    types: ['conference', 'journal'],
     items: all.filter(p => ['conference', 'journal'].includes(p.data.type)).sort((a, b) => b.data.year - a.data.year),
   },
   {
     label: 'White Papers & Industry Reports',
     description: 'Technical reports and architecture documentation',
-    types: ['whitepaper'],
     items: all.filter(p => p.data.type === 'whitepaper').sort((a, b) => b.data.year - a.data.year),
   },
   {
     label: 'Technical Writing - IBM Developer',
     description: 'Articles and tutorials published on IBM Developer',
-    types: ['article', 'tutorial'],
     items: all.filter(p => ['article', 'tutorial'].includes(p.data.type)).sort((a, b) => b.data.year - a.data.year),
   },
 ];
 
-const typeColors: Record<string, string> = {
-  conference: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400',
-  journal: 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400',
-  whitepaper: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400',
-  article: 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400',
-  tutorial: 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400',
+const typeBadge: Record<string, string> = {
+  conference: 'badge-green',
+  journal: 'badge-purple',
+  whitepaper: 'badge-blue',
+  article: 'badge-amber',
+  tutorial: 'badge-teal',
 };
+
+const types = [...new Set(all.map((p) => p.data.type))];
 ---
 
 <BaseLayout title="Publications - Aditya Gidh">
-  <Header />
+  <div class="wrap-narrow pb-8">
+    <PageHeader
+      eyebrow="Publications"
+      title="Research & writing"
+      lead="Peer-reviewed research, white papers, and technical writing spanning AI engineering, knowledge graphs, and applied machine learning."
+    />
 
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="max-w-3xl mb-12">
-      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">Publications</h1>
-      <p class="text-lg text-gray-600 dark:text-gray-400">Peer-reviewed research, white papers, and technical writing spanning AI engineering, knowledge graphs, and applied machine learning.</p>
+    <div data-filter-root>
+      {types.length > 1 && <FilterBar label="Filter by type" options={types} />}
+
+      <div class="space-y-14">
+        {groups.filter(g => g.items.length > 0).map((group) => (
+          <section data-filter-section>
+            <div class="mb-6 pb-3 border-b border-line">
+              <h2 class="font-serif text-2xl tracking-tight">{group.label}</h2>
+              <p class="text-sm text-muted mt-1">{group.description}</p>
+            </div>
+
+            <ul class="space-y-6">
+              {group.items.map((pub) => (
+                <li data-filter-item data-tags={pub.data.type} class="reveal flex gap-5">
+                  <span class="w-10 shrink-0 pt-0.5 font-mono text-xs text-muted">{pub.data.year}</span>
+                  <article class="flex-1 min-w-0">
+                    <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                      <span class:list={['badge', typeBadge[pub.data.type]]}>{pub.data.type}</span>
+                      <span class="text-xs text-muted">{pub.data.venue}</span>
+                    </div>
+                    {pub.data.url ? (
+                      <a href={pub.data.url} target="_blank" rel="noopener noreferrer" class="group">
+                        <h3 class="font-medium group-hover:text-accent transition-colors">
+                          {pub.data.title}
+                          <svg class="inline w-3.5 h-3.5 ml-1 mb-0.5 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                          <span class="sr-only">(opens in a new tab)</span>
+                        </h3>
+                      </a>
+                    ) : (
+                      <h3 class="font-medium">{pub.data.title}</h3>
+                    )}
+                    <p class="mt-1 text-sm text-muted leading-relaxed max-w-[54ch]">{pub.data.description}</p>
+                  </article>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
     </div>
-
-    <div class="space-y-14">
-      {groups.filter(g => g.items.length > 0).map((group) => (
-        <section>
-          <div class="mb-6 pb-3 border-b border-gray-200 dark:border-gray-800">
-            <h2 class="text-base font-semibold text-gray-900 dark:text-white">{group.label}</h2>
-            <p class="text-xs text-gray-500 dark:text-gray-500 mt-0.5">{group.description}</p>
-          </div>
-
-          <div class="space-y-5">
-            {group.items.map((pub) => (
-              <article class="flex gap-4">
-                <div class="w-12 shrink-0 text-right">
-                  <span class="text-xs text-gray-400 dark:text-gray-500 font-mono">{pub.data.year}</span>
-                </div>
-                <div class="flex-1 pb-5 border-b border-gray-100 dark:border-gray-800/60 last:border-0 last:pb-0">
-                  <div class="flex items-center gap-2 mb-1">
-                    <span class={`text-xs font-medium px-2 py-0.5 rounded-full ${typeColors[pub.data.type]}`}>
-                      {pub.data.type}
-                    </span>
-                    <span class="text-xs text-gray-500 dark:text-gray-400">{pub.data.venue}</span>
-                  </div>
-                  {pub.data.url ? (
-                    <a href={pub.data.url} target="_blank" rel="noopener noreferrer" class="group">
-                      <h3 class="text-sm font-medium text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors mb-1">
-                        {pub.data.title}
-                        <svg class="inline w-3 h-3 ml-1 mb-0.5 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                      </h3>
-                    </a>
-                  ) : (
-                    <h3 class="text-sm font-medium text-gray-900 dark:text-white mb-1">{pub.data.title}</h3>
-                  )}
-                  <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{pub.data.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-      ))}
-    </div>
-  </main>
-
-  <Footer />
+  </div>
 </BaseLayout>

@@ -1,0 +1,25 @@
+---
+interface Props {
+  label: string;
+  options: string[];
+}
+
+const { label, options } = Astro.props;
+---
+
+<div class="mb-10">
+  <p class="eyebrow mb-3" id="filter-label">{label}</p>
+  <div role="group" aria-labelledby="filter-label" class="flex flex-wrap gap-2">
+    {['', ...options].map((o) => (
+      <button
+        type="button"
+        data-filter-value={o}
+        aria-pressed={o === '' ? 'true' : 'false'}
+        class="min-h-9 px-3.5 rounded-full border border-line bg-surface text-sm text-muted hover:text-fg hover:border-fg transition-colors aria-pressed:bg-fg aria-pressed:text-bg aria-pressed:border-fg"
+      >
+        {o === '' ? 'All' : o}
+      </button>
+    ))}
+  </div>
+  <p class="sr-only" role="status" aria-live="polite" data-filter-status></p>
+</div>

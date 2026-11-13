@@ -1,0 +1,20 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  variant?: 'solid' | 'outline';
+}
+
+const { variant = 'outline' } = Astro.props;
+---
+
+<button
+  type="button"
+  data-copy={site.email}
+  class:list={['btn group', variant === 'solid' && 'btn-primary']}
+  aria-label={`Copy email address ${site.email}`}
+>
+  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+  <span class="font-mono text-[0.8rem]" data-copy-label>{site.email}</span>
+  <span class="sr-only" role="status" aria-live="polite" data-copy-status></span>
+</button>

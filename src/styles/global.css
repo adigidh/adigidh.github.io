@@ -1,28 +1,245 @@
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/fraunces";
+@import "@fontsource-variable/jetbrains-mono";
 @import "tailwindcss";
 @variant dark (&:where(.dark, .dark *));
 
-@theme {
-  --color-primary-50: #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-200: #bfdbfe;
-  --color-primary-300: #93c5fd;
-  --color-primary-400: #60a5fa;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-700: #1d4ed8;
-  --color-primary-800: #1e40af;
-  --color-primary-900: #1e3a8a;
+:root {
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --fg: #1c1917;
+  --muted: #6b645e;
+  --line: #e7e2da;
+  --accent: #c2410c;
+  --accent-soft: #fdeee4;
+  --accent-fg: #ffffff;
+  color-scheme: light;
+}
 
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+.dark {
+  --bg: #14120f;
+  --surface: #1c1a16;
+  --fg: #f5f1ea;
+  --muted: #a8a29e;
+  --line: #2a2722;
+  --accent: #fb923c;
+  --accent-soft: #2b1d12;
+  --accent-fg: #14120f;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-fg: var(--accent-fg);
+
+  --font-sans: 'Inter Variable', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+
+@utility wrap {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 64rem;
+  padding-inline: 1.25rem;
+  @media (min-width: 640px) {
+    padding-inline: 2rem;
+  }
+}
+
+@utility wrap-narrow {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 48rem;
+  padding-inline: 1.25rem;
+  @media (min-width: 640px) {
+    padding-inline: 2rem;
+  }
+}
+
+html {
+  background-color: var(--bg);
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background-color: rgb(59 130 246 / 0.2);
+  background-color: color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 :focus-visible {
-  outline: 2px solid rgb(59 130 246 / 0.7);
-  outline-offset: 2px;
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
   border-radius: 4px;
+}
+
+/* Typography */
+.display {
+  font-family: var(--font-serif);
+  font-variation-settings: 'opsz' 96;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.prose-link {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--muted) 50%, transparent);
+  text-underline-offset: 3px;
+  transition: color 150ms, text-decoration-color 150ms;
+}
+.prose-link:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+/* Surfaces */
+.card {
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  transition: border-color 200ms, transform 200ms, box-shadow 200ms;
+}
+a.card:hover,
+.card.card-hover:hover {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1;
+  padding: 0.35rem 0.55rem;
+  border-radius: 0.375rem;
+  background-color: color-mix(in srgb, var(--fg) 6%, transparent);
+  color: var(--muted);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  padding: 0 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid var(--line);
+  background-color: var(--surface);
+  color: var(--fg);
+  cursor: pointer;
+  transition: border-color 150ms, background-color 150ms, color 150ms;
+}
+.btn:hover {
+  border-color: var(--fg);
+}
+.btn-primary {
+  background-color: var(--fg);
+  border-color: var(--fg);
+  color: var(--bg);
+}
+.btn-primary:hover {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg);
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.15rem 0.55rem;
+  border-radius: 9999px;
+  --tone: var(--muted);
+  color: var(--tone);
+  background-color: color-mix(in srgb, var(--tone) 14%, transparent);
+}
+.badge-green { --tone: #15803d; }
+.badge-purple { --tone: #7e22ce; }
+.badge-blue { --tone: #1d4ed8; }
+.badge-amber { --tone: #b45309; }
+.badge-teal { --tone: #0f766e; }
+.badge-indigo { --tone: #4338ca; }
+.badge-accent { --tone: var(--accent); }
+.dark .badge-green { --tone: #4ade80; }
+.dark .badge-purple { --tone: #c084fc; }
+.dark .badge-blue { --tone: #60a5fa; }
+.dark .badge-amber { --tone: #fbbf24; }
+.dark .badge-teal { --tone: #2dd4bf; }
+.dark .badge-indigo { --tone: #818cf8; }
+
+/* Theme toggle shows the mode a click switches to: sun in dark mode, moon in light mode */
+.theme-icon { display: none; }
+html.dark .theme-icon-light,
+html:not(.dark) .theme-icon-dark { display: block; }
+
+/* Motion: everything below is gated on the reduced-motion preference */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 450ms ease, transform 450ms ease;
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  a.card:hover,
+  .card.card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -12px color-mix(in srgb, var(--fg) 25%, transparent);
+  }
+
+  dialog.palette[open] {
+    animation: palette-in 160ms ease-out;
+  }
+}
+
+@keyframes palette-in {
+  from { opacity: 0; transform: translateY(-6px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Command palette */
+dialog.palette {
+  margin: 12vh auto auto;
+  padding: 0;
+  width: min(36rem, calc(100vw - 2rem));
+  max-height: 70vh;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background-color: var(--surface);
+  color: var(--fg);
+  box-shadow: 0 24px 60px -20px rgb(0 0 0 / 0.45);
+  overflow: hidden;
+}
+dialog.palette::backdrop {
+  background-color: rgb(20 18 15 / 0.55);
+  backdrop-filter: blur(3px);
 }
