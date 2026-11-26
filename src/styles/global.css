@@ -239,6 +239,10 @@ dialog.palette {
   box-shadow: 0 24px 60px -20px rgb(0 0 0 / 0.45);
   overflow: hidden;
 }
+dialog.palette input:focus-visible {
+  outline-offset: -2px;
+  border-radius: 0.5rem;
+}
 dialog.palette::backdrop {
   background-color: rgb(20 18 15 / 0.55);
   backdrop-filter: blur(3px);

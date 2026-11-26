@@ -1,7 +1,7 @@
 export const site = {
   name: 'Aditya Gidh',
   role: 'Software Engineer, IBM Research',
-  email: 'adigidh20@gmail.com',
+  email: 'gidh.aditya20@gmail.com',
   intro:
     'Software Engineer at IBM Research with 10+ years building scalable web platforms, developer tools, and cloud-native services. I drive initiatives spanning AI-powered developer experiences, production observability, and DevSecOps automation partnering across research, product, and engineering organizations to bring innovative solutions into production at scale. Previously at IBM Watson for Genomics and IBM Marketplace.',
   socials: {
